@@ -1,0 +1,15 @@
+kind create cluster --config multi-node.yaml
+
+
+
+kubectl cluster-info --context kind-kind
+
+
+// Ingress
+
+kind create cluster --name kind-ingress --config ingress.yaml   
+
+
+após rodar
+
+k get nodes
