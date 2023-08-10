@@ -12,4 +12,55 @@ kind create cluster --name kind-ingress --config ingress.yaml
 
 após rodar
 
-k get nodes
+kubectl get nodes
+
+
+kind get clusters
+kind create cluster --name kind-ingress --config ingress.yaml
+
+
+
+
+
+
+// rodar o nginx controller
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+
+// aguardar o nginx-controller ficar ready
+kubectl get pods -n ingress-nginx
+
+// deletar spec se já existir
+kubectl delete -f test-ingress.yaml
+
+// aplicar spec
+kubectl create -f test-ingress.yaml
+
+// verificar pods
+kubectl get pods
+
+// verificar servicos
+kubectl get svc
+
+// verificar o ingress
+kubectl get ingress
+
+// analisar o ingress com describe
+// verificar paths
+kubectl describe ingress t-ingress
+
+
+// ver se o nginx está rodando
+curl localhost
+
+// verificar se os paths customizados estão funcionando
+curl localhost/t01
+curl localhost/t02
+
+
+
+
+
+
+
+
+

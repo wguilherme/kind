@@ -1,0 +1,68 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: t01
+  labels:
+    app: t01
+spec:
+  containers:
+    - name: t01-app
+      image: hashicorp/http-echo:0.2.3
+      args:
+        - "-text=T01-RUNNING"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: t01-service
+spec:
+  selector:
+    app: t01
+  ports:
+    - port: 5678
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: t02
+  labels:
+    app: t02
+spec:
+  containers:
+    - name: t02-app
+      image: hashicorp/http-echo:0.2.3
+      args:
+        - "-text=T02-RUNNING"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: t02-service
+spec:
+  selector:
+    app: t02
+  ports:
+    - port: 5678
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: t-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: "/t01"
+            backend:
+              service:
+                name: t01-service
+                port:
+                  number: 5678
+          - pathType: Prefix
+            path: "/t02"
+            backend:
+              service:
+                name: t02-service
+                port:
+                  number: 5678
